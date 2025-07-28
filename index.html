@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Clubes</title>
+</head>
+<body>
+    <div id="conteudo"></div>
+    <script>
+        fetch('clube/listar.html')
+            .then(response => response.text())
+            .then(dados_texto => {
+                const conteudo = document.getElementById('conteudo');
+                conteudo.innerHTML = dados_texto;
+            
+                // Executa scripts incluídos no HTML carregado
+                const scripts = conteudo.querySelectorAll('script');
+                scripts.forEach(oldScript => {
+                    const newScript = document.createElement('script');
+                    if (oldScript.src) {
+                        newScript.src = oldScript.src;
+                    } else {
+                        newScript.textContent = oldScript.textContent;
+                    }
+                    document.body.appendChild(newScript);
+                    oldScript.remove();
+                });
+            })
+            .catch(error => {
+                document.getElementById('conteudo').innerText = 'Erro ao carregar o conteúdo.';
+            });
+
+
+    </script>
+</body>
+</html>
