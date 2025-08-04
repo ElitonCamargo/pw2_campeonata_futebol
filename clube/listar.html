@@ -17,35 +17,32 @@
                 <th>Número de Títulos</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="listaDeClubes">
             <!-- Exemplo de dados estáticos, substitua por dados dinâmicos conforme necessário -->
-            <tr>
-                <td>Clube A</td>
-                <td>Estádio A</td>
-                <td>50.000</td>
-                <td>5</td>
-            </tr>
-            <tr>
-                <td>Clube B</td>
-                <td>Estádio B</td>
-                <td>30.000</td>
-                <td>2</td>
-            </tr>
-            <tr>
-                <td>Clube C</td>
-                <td>Estádio C</td>
-                <td>40.000</td>
-                <td>3</td>
-            </tr>
+            
+            
         </tbody>
     </table>
 </div>
     <script>
-        fetch('clube/listar.php?search=f')
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-                // Você pode processar e exibir os dados aqui conforme necessário
+        fetch('clube/listar.php?search=a')
+            .then(response => response.json())            
+            .then(res => {
+                if(res.status === 'success'){
+                    const clubes = res.data;
+                    let htmlListaClubes = "";
+                    clubes.forEach(clube => {
+                        htmlListaClubes += `
+                        <tr>
+                            <td>${clube.nome}</td>
+                            <td>${clube.estadio}</td>
+                            <td>${clube.capacidade_estadio}</td>
+                            <td>${clube.num_titulos}</td>
+                        </tr>
+                        `;
+                    });
+                    document.getElementById("listaDeClubes").innerHTML = htmlListaClubes;
+                }
             })
             .catch(error => console.error('Erro ao buscar dados:', error));
     </script>

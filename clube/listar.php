@@ -57,6 +57,7 @@ function listarClubesJson($search="") {
     }
 }
 
+// Estamos fazendo a verificação dos tipos de metodos que o usuário está utilizando
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     listarClubesJson(search: $_GET['search'] ?? '');
 }
