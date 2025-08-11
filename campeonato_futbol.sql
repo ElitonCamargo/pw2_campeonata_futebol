@@ -1,0 +1,752 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.2
+-- https://www.phpmyadmin.net/
+--
+-- Host: localhost:3306
+-- Tempo de geração: 11/08/2025 às 11:02
+-- Versão do servidor: 8.0.30
+-- Versão do PHP: 8.1.10
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Banco de dados: `campeonato_futbol`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `campeonato`
+--
+
+CREATE TABLE `campeonato` (
+  `id` int UNSIGNED NOT NULL,
+  `ano` int DEFAULT NULL,
+  `nome` varchar(50) DEFAULT NULL,
+  `descricao` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Despejando dados para a tabela `campeonato`
+--
+
+INSERT INTO `campeonato` (`id`, `ano`, `nome`, `descricao`) VALUES
+(1, 2018, 'campeonato brasileiro', 'O Campeonato Brasileiro de Futebol, também conhecido como Campeonato Brasileiro, Brasileirão e Série');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `clube`
+--
+
+CREATE TABLE `clube` (
+  `nome` varchar(50) NOT NULL,
+  `estadio` varchar(50) DEFAULT NULL,
+  `capacidade_estadio` int DEFAULT NULL,
+  `num_titulos` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Despejando dados para a tabela `clube`
+--
+
+INSERT INTO `clube` (`nome`, `estadio`, `capacidade_estadio`, `num_titulos`) VALUES
+('América Mineiro', 'Independência', 23018, 0),
+('Atlético Mineiro', 'Independência', 23018, 1),
+('Atlético Paranaense', 'Arena da Baixada', 42370, 1),
+('Bahia', 'Arena Fonte Nova', 50025, 2),
+('Botafogo', 'Nilton Santos', 45000, 2),
+('Ceará', 'Arena Castelão', 63903, 0),
+('Chapecoense', 'Arena Condá', 15765, 0),
+('Corinthians', 'Arena Corinthians', 47605, 7),
+('Cruzeiro', 'Mineirão', 61846, 4),
+('Etec', 'Quadra Etec', 50, 0),
+('Flamengo', 'Luso Brasileiro[7]', 20215, 5),
+('Fluminense', 'Maracanã', 78838, 4),
+('Grêmio', 'Arena do Grêmio', 55662, 2),
+('Internacional', 'Beira-Rio', 50128, 3),
+('Palmeiras', 'Allianz Parque', 43713, 9),
+('Paraná', 'Vila Capanema', 20083, 0),
+('Santos', 'Vila Belmiro', 16068, 8),
+('São Paulo', 'Morumbi', 72039, 6),
+('Sport', 'Ilha do Retiro', 32983, 1),
+('Vasco da Gama', 'São Januário', 24584, 4),
+('Vitória', 'Barradão', 34535, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `clube_em_jogo`
+--
+
+CREATE TABLE `clube_em_jogo` (
+  `fk_jogo` int NOT NULL,
+  `fk_clube` varchar(50) NOT NULL,
+  `num_gols` int DEFAULT NULL,
+  `pontos` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Despejando dados para a tabela `clube_em_jogo`
+--
+
+INSERT INTO `clube_em_jogo` (`fk_jogo`, `fk_clube`, `num_gols`, `pontos`) VALUES
+(1, 'América Mineiro', 2, 1),
+(1, 'Atlético Mineiro', 2, 1),
+(2, 'América Mineiro', 3, 3),
+(2, 'Atlético Paranaense', 1, 0),
+(3, 'América Mineiro', 2, 3),
+(3, 'Bahia', 0, 0),
+(4, 'América Mineiro', 1, 0),
+(4, 'Botafogo', 2, 3),
+(5, 'América Mineiro', 0, 0),
+(5, 'Ceará', 2, 3),
+(6, 'América Mineiro', 4, 3),
+(6, 'Chapecoense', 3, 0),
+(7, 'América Mineiro', 2, 0),
+(7, 'Corinthians', 3, 3),
+(8, 'América Mineiro', 0, 0),
+(8, 'Cruzeiro', 4, 3),
+(9, 'América Mineiro', 3, 0),
+(9, 'Flamengo', 4, 3),
+(10, 'América Mineiro', 1, 3),
+(10, 'Fluminense', 0, 0),
+(11, 'América Mineiro', 3, 1),
+(11, 'Grêmio', 3, 1),
+(12, 'América Mineiro', 4, 3),
+(12, 'Internacional', 0, 0),
+(13, 'América Mineiro', 0, 0),
+(13, 'Palmeiras', 1, 3),
+(14, 'América Mineiro', 0, 1),
+(14, 'Paraná', 0, 1),
+(15, 'América Mineiro', 4, 3),
+(15, 'Santos', 0, 0),
+(16, 'América Mineiro', 2, 1),
+(16, 'São Paulo', 2, 1),
+(17, 'América Mineiro', 4, 3),
+(17, 'Sport', 2, 0),
+(18, 'América Mineiro', 2, 1),
+(18, 'Vasco da Gama', 2, 1),
+(19, 'América Mineiro', 0, 0),
+(19, 'Vitória', 3, 3),
+(20, 'Atlético Mineiro', 1, 0),
+(20, 'Atlético Paranaense', 4, 3),
+(21, 'Atlético Mineiro', 0, 0),
+(21, 'Bahia', 1, 3),
+(22, 'Atlético Mineiro', 1, 3),
+(22, 'Botafogo', 0, 0),
+(23, 'Atlético Mineiro', 1, 3),
+(23, 'Ceará', 0, 0),
+(24, 'Atlético Mineiro', 2, 3),
+(24, 'Chapecoense', 0, 0),
+(25, 'Atlético Mineiro', 4, 3),
+(25, 'Corinthians', 3, 0),
+(26, 'Atlético Mineiro', 2, 0),
+(26, 'Cruzeiro', 4, 3),
+(27, 'Atlético Mineiro', 0, 0),
+(27, 'Flamengo', 1, 3),
+(28, 'Atlético Mineiro', 2, 0),
+(28, 'Fluminense', 4, 3),
+(29, 'Atlético Mineiro', 2, 1),
+(29, 'Grêmio', 2, 1),
+(30, 'Atlético Mineiro', 0, 1),
+(30, 'Internacional', 0, 1),
+(31, 'Atlético Mineiro', 0, 0),
+(31, 'Palmeiras', 1, 3),
+(32, 'Atlético Mineiro', 2, 3),
+(32, 'Paraná', 0, 0),
+(33, 'Atlético Mineiro', 4, 3),
+(33, 'Santos', 1, 0),
+(34, 'Atlético Mineiro', 4, 1),
+(34, 'São Paulo', 4, 1),
+(35, 'Atlético Mineiro', 0, 0),
+(35, 'Sport', 2, 3),
+(36, 'Atlético Mineiro', 4, 1),
+(36, 'Vasco da Gama', 4, 1),
+(37, 'Atlético Mineiro', 2, 1),
+(37, 'Vitória', 2, 1),
+(38, 'Atlético Paranaense', 4, 3),
+(38, 'Bahia', 2, 0),
+(39, 'Atlético Paranaense', 2, 0),
+(39, 'Botafogo', 4, 3),
+(40, 'Atlético Paranaense', 3, 3),
+(40, 'Ceará', 0, 0),
+(41, 'Atlético Paranaense', 4, 1),
+(41, 'Chapecoense', 4, 1),
+(42, 'Atlético Paranaense', 1, 1),
+(42, 'Corinthians', 1, 1),
+(43, 'Atlético Paranaense', 2, 1),
+(43, 'Cruzeiro', 2, 1),
+(44, 'Atlético Paranaense', 2, 0),
+(44, 'Flamengo', 3, 3),
+(45, 'Atlético Paranaense', 4, 3),
+(45, 'Fluminense', 2, 0),
+(46, 'Atlético Paranaense', 0, 0),
+(46, 'Grêmio', 2, 3),
+(47, 'Atlético Paranaense', 3, 3),
+(47, 'Internacional', 0, 0),
+(48, 'Atlético Paranaense', 4, 1),
+(48, 'Palmeiras', 4, 1),
+(49, 'Atlético Paranaense', 3, 3),
+(49, 'Paraná', 0, 0),
+(50, 'Atlético Paranaense', 0, 1),
+(50, 'Santos', 0, 1),
+(51, 'Atlético Paranaense', 1, 0),
+(51, 'São Paulo', 2, 3),
+(52, 'Atlético Paranaense', 4, 3),
+(52, 'Sport', 2, 0),
+(53, 'Atlético Paranaense', 3, 1),
+(53, 'Vasco da Gama', 3, 1),
+(54, 'Atlético Paranaense', 2, 1),
+(54, 'Vitória', 2, 1),
+(55, 'Bahia', 1, 3),
+(55, 'Botafogo', 0, 0),
+(56, 'Bahia', 2, 0),
+(56, 'Ceará', 3, 3),
+(57, 'Bahia', 4, 3),
+(57, 'Chapecoense', 0, 0),
+(58, 'Bahia', 1, 3),
+(58, 'Corinthians', 0, 0),
+(59, 'Bahia', 4, 3),
+(59, 'Cruzeiro', 1, 0),
+(60, 'Bahia', 2, 1),
+(60, 'Flamengo', 2, 1),
+(61, 'Bahia', 4, 3),
+(61, 'Fluminense', 0, 0),
+(62, 'Bahia', 0, 0),
+(62, 'Grêmio', 2, 3),
+(63, 'Bahia', 2, 1),
+(63, 'Internacional', 2, 1),
+(64, 'Bahia', 0, 0),
+(64, 'Palmeiras', 1, 3),
+(65, 'Bahia', 3, 3),
+(65, 'Paraná', 0, 0),
+(66, 'Bahia', 3, 3),
+(66, 'Santos', 1, 0),
+(67, 'Bahia', 3, 1),
+(67, 'São Paulo', 3, 1),
+(68, 'Bahia', 3, 3),
+(68, 'Sport', 2, 0),
+(69, 'Bahia', 0, 0),
+(69, 'Vasco da Gama', 3, 3),
+(70, 'Bahia', 2, 0),
+(70, 'Vitória', 4, 3),
+(71, 'Botafogo', 0, 0),
+(71, 'Ceará', 4, 3),
+(72, 'Botafogo', 2, 0),
+(72, 'Chapecoense', 3, 3),
+(73, 'Botafogo', 0, 0),
+(73, 'Corinthians', 1, 3),
+(74, 'Botafogo', 2, 0),
+(74, 'Cruzeiro', 3, 3),
+(75, 'Botafogo', 4, 3),
+(75, 'Flamengo', 3, 0),
+(76, 'Botafogo', 4, 3),
+(76, 'Fluminense', 2, 0),
+(77, 'Botafogo', 3, 1),
+(77, 'Grêmio', 3, 1),
+(78, 'Botafogo', 0, 1),
+(78, 'Internacional', 0, 1),
+(79, 'Botafogo', 1, 1),
+(79, 'Palmeiras', 1, 1),
+(80, 'Botafogo', 0, 0),
+(80, 'Paraná', 1, 3),
+(81, 'Botafogo', 2, 3),
+(81, 'Santos', 0, 0),
+(82, 'Botafogo', 4, 3),
+(82, 'São Paulo', 0, 0),
+(83, 'Botafogo', 1, 1),
+(83, 'Sport', 1, 1),
+(84, 'Botafogo', 4, 3),
+(84, 'Vasco da Gama', 0, 0),
+(85, 'Botafogo', 1, 0),
+(85, 'Vitória', 4, 3),
+(86, 'Ceará', 0, 0),
+(86, 'Chapecoense', 1, 3),
+(87, 'Ceará', 3, 1),
+(87, 'Corinthians', 3, 1),
+(88, 'Ceará', 1, 3),
+(88, 'Cruzeiro', 0, 0),
+(89, 'Ceará', 3, 3),
+(89, 'Flamengo', 1, 0),
+(90, 'Ceará', 2, 3),
+(90, 'Fluminense', 0, 0),
+(91, 'Ceará', 4, 3),
+(91, 'Grêmio', 2, 0),
+(92, 'Ceará', 2, 0),
+(92, 'Internacional', 4, 3),
+(93, 'Ceará', 0, 0),
+(93, 'Palmeiras', 1, 3),
+(94, 'Ceará', 2, 3),
+(94, 'Paraná', 0, 0),
+(95, 'Ceará', 2, 0),
+(95, 'Santos', 3, 3),
+(96, 'Ceará', 0, 0),
+(96, 'São Paulo', 3, 3),
+(97, 'Ceará', 3, 3),
+(97, 'Sport', 0, 0),
+(98, 'Ceará', 1, 0),
+(98, 'Vasco da Gama', 4, 3),
+(99, 'Ceará', 4, 3),
+(99, 'Vitória', 1, 0),
+(100, 'Chapecoense', 1, 0),
+(100, 'Corinthians', 4, 3),
+(101, 'Chapecoense', 1, 0),
+(101, 'Cruzeiro', 2, 3),
+(102, 'Chapecoense', 1, 3),
+(102, 'Flamengo', 0, 0),
+(103, 'Chapecoense', 3, 1),
+(103, 'Fluminense', 3, 1),
+(104, 'Chapecoense', 3, 0),
+(104, 'Grêmio', 4, 3),
+(105, 'Chapecoense', 1, 3),
+(105, 'Internacional', 0, 0),
+(106, 'Chapecoense', 2, 3),
+(106, 'Palmeiras', 0, 0),
+(107, 'Chapecoense', 4, 1),
+(107, 'Paraná', 4, 1),
+(108, 'Chapecoense', 2, 3),
+(108, 'Santos', 0, 0),
+(109, 'Chapecoense', 3, 0),
+(109, 'São Paulo', 4, 3),
+(110, 'Chapecoense', 0, 0),
+(110, 'Sport', 4, 3),
+(111, 'Chapecoense', 3, 0),
+(111, 'Vasco da Gama', 4, 3),
+(112, 'Chapecoense', 3, 1),
+(112, 'Vitória', 3, 1),
+(113, 'Corinthians', 3, 3),
+(113, 'Cruzeiro', 1, 0),
+(114, 'Corinthians', 2, 1),
+(114, 'Flamengo', 2, 1),
+(115, 'Corinthians', 2, 1),
+(115, 'Fluminense', 2, 1),
+(116, 'Corinthians', 0, 0),
+(116, 'Grêmio', 1, 3),
+(117, 'Corinthians', 4, 3),
+(117, 'Internacional', 2, 0),
+(118, 'Corinthians', 3, 3),
+(118, 'Palmeiras', 2, 0),
+(119, 'Corinthians', 0, 0),
+(119, 'Paraná', 2, 3),
+(120, 'Corinthians', 1, 1),
+(120, 'Santos', 1, 1),
+(121, 'Corinthians', 3, 1),
+(121, 'São Paulo', 3, 1),
+(122, 'Corinthians', 3, 3),
+(122, 'Sport', 1, 0),
+(123, 'Corinthians', 0, 1),
+(123, 'Vasco da Gama', 0, 1),
+(124, 'Corinthians', 3, 1),
+(124, 'Vitória', 3, 1),
+(125, 'Cruzeiro', 3, 3),
+(125, 'Flamengo', 1, 0),
+(126, 'Cruzeiro', 1, 0),
+(126, 'Fluminense', 4, 3),
+(127, 'Cruzeiro', 1, 1),
+(127, 'Grêmio', 1, 1),
+(128, 'Cruzeiro', 1, 0),
+(128, 'Internacional', 2, 3),
+(129, 'Cruzeiro', 3, 1),
+(129, 'Palmeiras', 3, 1),
+(130, 'Cruzeiro', 1, 1),
+(130, 'Paraná', 1, 1),
+(131, 'Cruzeiro', 1, 3),
+(131, 'Santos', 0, 0),
+(132, 'Cruzeiro', 2, 0),
+(132, 'São Paulo', 4, 3),
+(133, 'Cruzeiro', 4, 3),
+(133, 'Sport', 1, 0),
+(134, 'Cruzeiro', 0, 0),
+(134, 'Vasco da Gama', 2, 3),
+(135, 'Cruzeiro', 1, 3),
+(135, 'Vitória', 0, 0),
+(136, 'Flamengo', 4, 3),
+(136, 'Fluminense', 0, 0),
+(137, 'Flamengo', 3, 1),
+(137, 'Grêmio', 3, 1),
+(138, 'Flamengo', 1, 0),
+(138, 'Internacional', 4, 3),
+(139, 'Flamengo', 0, 0),
+(139, 'Palmeiras', 1, 3),
+(140, 'Flamengo', 3, 1),
+(140, 'Paraná', 3, 1),
+(141, 'Flamengo', 3, 1),
+(141, 'Santos', 3, 1),
+(142, 'Flamengo', 4, 3),
+(142, 'São Paulo', 1, 0),
+(143, 'Flamengo', 0, 0),
+(143, 'Sport', 1, 3),
+(144, 'Flamengo', 0, 0),
+(144, 'Vasco da Gama', 2, 3),
+(145, 'Flamengo', 1, 1),
+(145, 'Vitória', 1, 1),
+(146, 'Fluminense', 3, 3),
+(146, 'Grêmio', 2, 0),
+(147, 'Fluminense', 0, 0),
+(147, 'Internacional', 4, 3),
+(148, 'Fluminense', 0, 0),
+(148, 'Palmeiras', 3, 3),
+(149, 'Fluminense', 0, 0),
+(149, 'Paraná', 4, 3),
+(150, 'Fluminense', 2, 0),
+(150, 'Santos', 4, 3),
+(151, 'Fluminense', 4, 3),
+(151, 'São Paulo', 1, 0),
+(152, 'Fluminense', 2, 1),
+(152, 'Sport', 2, 1),
+(153, 'Fluminense', 1, 3),
+(153, 'Vasco da Gama', 0, 0),
+(154, 'Fluminense', 1, 0),
+(154, 'Vitória', 2, 3),
+(155, 'Grêmio', 0, 0),
+(155, 'Internacional', 1, 3),
+(156, 'Grêmio', 1, 0),
+(156, 'Palmeiras', 2, 3),
+(157, 'Grêmio', 4, 3),
+(157, 'Paraná', 3, 0),
+(158, 'Grêmio', 3, 3),
+(158, 'Santos', 2, 0),
+(159, 'Grêmio', 0, 0),
+(159, 'São Paulo', 1, 3),
+(160, 'Grêmio', 3, 1),
+(160, 'Sport', 3, 1),
+(161, 'Grêmio', 0, 0),
+(161, 'Vasco da Gama', 2, 3),
+(162, 'Grêmio', 0, 1),
+(162, 'Vitória', 0, 1),
+(163, 'Internacional', 2, 3),
+(163, 'Palmeiras', 1, 0),
+(164, 'Internacional', 0, 0),
+(164, 'Paraná', 4, 3),
+(165, 'Internacional', 3, 1),
+(165, 'Santos', 3, 1),
+(166, 'Internacional', 4, 3),
+(166, 'São Paulo', 1, 0),
+(167, 'Internacional', 4, 3),
+(167, 'Sport', 3, 0),
+(168, 'Internacional', 3, 3),
+(168, 'Vasco da Gama', 1, 0),
+(169, 'Internacional', 1, 0),
+(169, 'Vitória', 2, 3),
+(170, 'Palmeiras', 4, 1),
+(170, 'Paraná', 4, 1),
+(171, 'Palmeiras', 4, 3),
+(171, 'Santos', 2, 0),
+(172, 'Palmeiras', 2, 3),
+(172, 'São Paulo', 0, 0),
+(173, 'Palmeiras', 0, 0),
+(173, 'Sport', 1, 3),
+(174, 'Palmeiras', 2, 1),
+(174, 'Vasco da Gama', 2, 1),
+(175, 'Palmeiras', 1, 0),
+(175, 'Vitória', 3, 3),
+(176, 'Paraná', 2, 0),
+(176, 'Santos', 4, 3),
+(177, 'Paraná', 0, 0),
+(177, 'São Paulo', 3, 3),
+(178, 'Paraná', 3, 3),
+(178, 'Sport', 1, 0),
+(179, 'Paraná', 0, 0),
+(179, 'Vasco da Gama', 2, 3),
+(180, 'Paraná', 0, 0),
+(180, 'Vitória', 4, 3),
+(181, 'Santos', 0, 0),
+(181, 'São Paulo', 2, 3),
+(182, 'Santos', 4, 3),
+(182, 'Sport', 2, 0),
+(183, 'Santos', 2, 0),
+(183, 'Vasco da Gama', 4, 3),
+(184, 'Santos', 3, 3),
+(184, 'Vitória', 0, 0),
+(185, 'São Paulo', 4, 3),
+(185, 'Sport', 1, 0),
+(186, 'São Paulo', 0, 0),
+(186, 'Vasco da Gama', 3, 3),
+(187, 'São Paulo', 1, 0),
+(187, 'Vitória', 4, 3),
+(188, 'Sport', 3, 3),
+(188, 'Vasco da Gama', 2, 0),
+(189, 'Sport', 0, 1),
+(189, 'Vitória', 0, 1),
+(190, 'Vasco da Gama', 4, 3),
+(190, 'Vitória', 0, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `jogo`
+--
+
+CREATE TABLE `jogo` (
+  `id` int NOT NULL,
+  `campeonato` int UNSIGNED DEFAULT NULL,
+  `data_hota` date NOT NULL,
+  `estadio` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Despejando dados para a tabela `jogo`
+--
+
+INSERT INTO `jogo` (`id`, `campeonato`, `data_hota`, `estadio`) VALUES
+(1, 1, '2018-04-22', 'Independência'),
+(2, 1, '2018-08-12', 'Arena da Baixada'),
+(3, 1, '2018-07-29', 'Independência'),
+(4, 1, '2018-07-15', 'Nilton Santos'),
+(5, 1, '2018-07-08', 'Independência'),
+(6, 1, '2018-07-01', 'Arena Condá'),
+(7, 1, '2018-05-27', 'Independência'),
+(8, 1, '2018-05-20', 'Mineirão'),
+(9, 1, '2018-04-22', 'Independência'),
+(10, 1, '2018-04-08', 'Maracanã'),
+(11, 1, '2018-08-05', 'Independência'),
+(12, 1, '2018-07-15', 'Beira-Rio'),
+(13, 1, '2018-07-08', 'Independência'),
+(14, 1, '2018-06-10', 'Vila Capanema'),
+(15, 1, '2018-06-03', 'Independência'),
+(16, 1, '2018-05-13', 'Morumbi'),
+(17, 1, '2018-04-29', 'Independência'),
+(18, 1, '2018-04-08', 'São Januário'),
+(19, 1, '2018-08-05', 'Independência'),
+(20, 1, '2018-07-08', 'Arena da Baixada'),
+(21, 1, '2018-06-24', 'Independência'),
+(22, 1, '2018-06-10', 'Nilton Santos'),
+(23, 1, '2018-05-27', 'Independência'),
+(24, 1, '2018-05-27', 'Arena Condá'),
+(25, 1, '2018-04-22', 'Independência'),
+(26, 1, '2018-08-12', 'Mineirão'),
+(27, 1, '2018-07-29', 'Independência'),
+(28, 1, '2018-07-15', 'Maracanã'),
+(29, 1, '2018-07-01', 'Independência'),
+(30, 1, '2018-06-17', 'Beira-Rio'),
+(31, 1, '2018-06-03', 'Independência'),
+(32, 1, '2018-05-06', 'Vila Capanema'),
+(33, 1, '2018-04-29', 'Independência'),
+(34, 1, '2018-04-15', 'Morumbi'),
+(35, 1, '2018-08-12', 'Independência'),
+(36, 1, '2018-07-15', 'São Januário'),
+(37, 1, '2018-07-01', 'Independência'),
+(38, 1, '2018-06-03', 'Arena Fonte Nova'),
+(39, 1, '2018-05-13', 'Arena da Baixada'),
+(40, 1, '2018-04-29', 'Arena Castelão'),
+(41, 1, '2018-04-29', 'Arena da Baixada'),
+(42, 1, '2018-08-12', 'Arena Corinthians'),
+(43, 1, '2018-07-15', 'Arena da Baixada'),
+(44, 1, '2018-07-01', 'Luso Brasileiro'),
+(45, 1, '2018-06-17', 'Arena da Baixada'),
+(46, 1, '2018-06-10', 'Arena do Grêmio'),
+(47, 1, '2018-05-27', 'Arena da Baixada'),
+(48, 1, '2018-05-13', 'Allianz Parque'),
+(49, 1, '2018-04-22', 'Arena da Baixada'),
+(50, 1, '2018-04-15', 'Vila Belmiro'),
+(51, 1, '2018-08-12', 'Arena da Baixada'),
+(52, 1, '2018-07-29', 'Ilha do Retiro'),
+(53, 1, '2018-07-01', 'Arena da Baixada'),
+(54, 1, '2018-06-10', 'Barradão'),
+(55, 1, '2018-05-20', 'Arena Fonte Nova'),
+(56, 1, '2018-05-06', 'Arena Castelão'),
+(57, 1, '2018-05-06', 'Arena Fonte Nova'),
+(58, 1, '2018-04-08', 'Arena Corinthians'),
+(59, 1, '2018-07-22', 'Arena Fonte Nova'),
+(60, 1, '2018-07-08', 'Luso Brasileiro'),
+(61, 1, '2018-07-01', 'Arena Fonte Nova'),
+(62, 1, '2018-06-17', 'Arena do Grêmio'),
+(63, 1, '2018-06-03', 'Arena Fonte Nova'),
+(64, 1, '2018-05-20', 'Allianz Parque'),
+(65, 1, '2018-04-29', 'Arena Fonte Nova'),
+(66, 1, '2018-04-22', 'Vila Belmiro'),
+(67, 1, '2018-04-08', 'Arena Fonte Nova'),
+(68, 1, '2018-08-05', 'Ilha do Retiro'),
+(69, 1, '2018-07-08', 'Arena Fonte Nova'),
+(70, 1, '2018-06-17', 'Barradão'),
+(71, 1, '2018-06-03', 'Nilton Santos'),
+(72, 1, '2018-06-03', 'Arena Condá'),
+(73, 1, '2018-04-29', 'Nilton Santos'),
+(74, 1, '2018-04-08', 'Mineirão'),
+(75, 1, '2018-08-05', 'Nilton Santos'),
+(76, 1, '2018-07-22', 'Maracanã'),
+(77, 1, '2018-07-08', 'Nilton Santos'),
+(78, 1, '2018-06-24', 'Beira-Rio'),
+(79, 1, '2018-06-10', 'Nilton Santos'),
+(80, 1, '2018-05-13', 'Vila Capanema'),
+(81, 1, '2018-05-06', 'Nilton Santos'),
+(82, 1, '2018-04-22', 'Morumbi'),
+(83, 1, '2018-04-08', 'Nilton Santos'),
+(84, 1, '2018-07-22', 'São Januário'),
+(85, 1, '2018-07-08', 'Nilton Santos'),
+(86, 1, '2018-07-08', 'Arena Condá'),
+(87, 1, '2018-06-03', 'Arena Castelão'),
+(88, 1, '2018-05-27', 'Mineirão'),
+(89, 1, '2018-04-29', 'Arena Castelão'),
+(90, 1, '2018-04-15', 'Maracanã'),
+(91, 1, '2018-08-12', 'Arena Castelão'),
+(92, 1, '2018-07-22', 'Beira-Rio'),
+(93, 1, '2018-07-15', 'Arena Castelão'),
+(94, 1, '2018-06-17', 'Vila Capanema'),
+(95, 1, '2018-06-10', 'Arena Castelão'),
+(96, 1, '2018-05-20', 'Morumbi'),
+(97, 1, '2018-05-06', 'Arena Castelão'),
+(98, 1, '2018-04-15', 'São Januário'),
+(99, 1, '2018-08-12', 'Arena Castelão'),
+(100, 1, '2018-07-22', 'Arena Corinthians'),
+(101, 1, '2018-06-24', 'Arena Condá'),
+(102, 1, '2018-05-27', 'Luso Brasileiro'),
+(103, 1, '2018-05-13', 'Arena Condá'),
+(104, 1, '2018-05-13', 'Arena do Grêmio'),
+(105, 1, '2018-04-29', 'Arena Condá'),
+(106, 1, '2018-04-15', 'Allianz Parque'),
+(107, 1, '2018-08-12', 'Arena Condá'),
+(108, 1, '2018-07-15', 'Vila Belmiro'),
+(109, 1, '2018-07-08', 'Arena Condá'),
+(110, 1, '2018-07-01', 'Ilha do Retiro'),
+(111, 1, '2018-06-03', 'Arena Condá'),
+(112, 1, '2018-05-13', 'Barradão'),
+(113, 1, '2018-04-29', 'Arena Corinthians'),
+(114, 1, '2018-04-08', 'Luso Brasileiro'),
+(115, 1, '2018-08-05', 'Arena Corinthians'),
+(116, 1, '2018-07-22', 'Arena do Grêmio'),
+(117, 1, '2018-07-01', 'Arena Corinthians'),
+(118, 1, '2018-06-24', 'Allianz Parque'),
+(119, 1, '2018-05-27', 'Arena Corinthians'),
+(120, 1, '2018-05-20', 'Vila Belmiro'),
+(121, 1, '2018-04-29', 'Arena Corinthians'),
+(122, 1, '2018-04-15', 'Ilha do Retiro'),
+(123, 1, '2018-08-05', 'Arena Corinthians'),
+(124, 1, '2018-07-22', 'Barradão'),
+(125, 1, '2018-06-10', 'Mineirão'),
+(126, 1, '2018-05-27', 'Maracanã'),
+(127, 1, '2018-05-27', 'Mineirão'),
+(128, 1, '2018-05-13', 'Beira-Rio'),
+(129, 1, '2018-04-29', 'Mineirão'),
+(130, 1, '2018-04-08', 'Vila Capanema'),
+(131, 1, '2018-07-29', 'Mineirão'),
+(132, 1, '2018-07-29', 'Morumbi'),
+(133, 1, '2018-07-15', 'Mineirão'),
+(134, 1, '2018-06-17', 'São Januário'),
+(135, 1, '2018-05-27', 'Mineirão'),
+(136, 1, '2018-04-29', 'Maracanã'),
+(137, 1, '2018-04-29', 'Luso Brasileiro'),
+(138, 1, '2018-04-15', 'Beira-Rio'),
+(139, 1, '2018-08-05', 'Luso Brasileiro'),
+(140, 1, '2018-07-22', 'Vila Capanema'),
+(141, 1, '2018-07-01', 'Luso Brasileiro'),
+(142, 1, '2018-06-17', 'Morumbi'),
+(143, 1, '2018-06-17', 'Luso Brasileiro'),
+(144, 1, '2018-05-20', 'São Januário'),
+(145, 1, '2018-04-29', 'Luso Brasileiro'),
+(146, 1, '2018-04-15', 'Arena do Grêmio'),
+(147, 1, '2018-08-05', 'Maracanã'),
+(148, 1, '2018-07-22', 'Allianz Parque'),
+(149, 1, '2018-07-01', 'Maracanã'),
+(150, 1, '2018-06-17', 'Vila Belmiro'),
+(151, 1, '2018-05-27', 'Maracanã'),
+(152, 1, '2018-05-27', 'Ilha do Retiro'),
+(153, 1, '2018-05-06', 'Maracanã'),
+(154, 1, '2018-04-15', 'Barradão'),
+(155, 1, '2018-08-12', 'Arena do Grêmio'),
+(156, 1, '2018-07-29', 'Allianz Parque'),
+(157, 1, '2018-07-08', 'Arena do Grêmio'),
+(158, 1, '2018-06-24', 'Vila Belmiro'),
+(159, 1, '2018-06-03', 'Arena do Grêmio'),
+(160, 1, '2018-06-03', 'Ilha do Retiro'),
+(161, 1, '2018-05-13', 'Arena do Grêmio'),
+(162, 1, '2018-04-22', 'Barradão'),
+(163, 1, '2018-08-12', 'Beira-Rio'),
+(164, 1, '2018-07-29', 'Vila Capanema'),
+(165, 1, '2018-07-08', 'Beira-Rio'),
+(166, 1, '2018-06-24', 'Morumbi'),
+(167, 1, '2018-06-24', 'Beira-Rio'),
+(168, 1, '2018-05-27', 'São Januário'),
+(169, 1, '2018-05-06', 'Beira-Rio'),
+(170, 1, '2018-04-15', 'Vila Capanema'),
+(171, 1, '2018-08-12', 'Allianz Parque'),
+(172, 1, '2018-08-05', 'Morumbi'),
+(173, 1, '2018-07-22', 'Allianz Parque'),
+(174, 1, '2018-06-24', 'São Januário'),
+(175, 1, '2018-06-03', 'Allianz Parque'),
+(176, 1, '2018-05-27', 'Vila Belmiro'),
+(177, 1, '2018-05-06', 'Vila Capanema'),
+(178, 1, '2018-04-22', 'Ilha do Retiro'),
+(179, 1, '2018-08-12', 'Vila Capanema'),
+(180, 1, '2018-07-29', 'Barradão'),
+(181, 1, '2018-07-15', 'Vila Belmiro'),
+(182, 1, '2018-07-08', 'Ilha do Retiro'),
+(183, 1, '2018-06-10', 'Vila Belmiro'),
+(184, 1, '2018-05-20', 'Barradão'),
+(185, 1, '2018-05-13', 'Morumbi'),
+(186, 1, '2018-04-22', 'São Januário'),
+(187, 1, '2018-04-08', 'Morumbi'),
+(188, 1, '2018-07-29', 'São Januário'),
+(189, 1, '2018-07-15', 'Ilha do Retiro'),
+(190, 1, '2018-06-24', 'Barradão');
+
+--
+-- Índices para tabelas despejadas
+--
+
+--
+-- Índices de tabela `campeonato`
+--
+ALTER TABLE `campeonato`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Índices de tabela `clube`
+--
+ALTER TABLE `clube`
+  ADD PRIMARY KEY (`nome`);
+
+--
+-- Índices de tabela `clube_em_jogo`
+--
+ALTER TABLE `clube_em_jogo`
+  ADD PRIMARY KEY (`fk_jogo`,`fk_clube`),
+  ADD KEY `fk_clube` (`fk_clube`);
+
+--
+-- Índices de tabela `jogo`
+--
+ALTER TABLE `jogo`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `campeonato` (`campeonato`);
+
+--
+-- AUTO_INCREMENT para tabelas despejadas
+--
+
+--
+-- AUTO_INCREMENT de tabela `campeonato`
+--
+ALTER TABLE `campeonato`
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- Restrições para tabelas despejadas
+--
+
+--
+-- Restrições para tabelas `clube_em_jogo`
+--
+ALTER TABLE `clube_em_jogo`
+  ADD CONSTRAINT `clube_em_jogo_ibfk_1` FOREIGN KEY (`fk_clube`) REFERENCES `clube` (`nome`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `clube_em_jogo_ibfk_2` FOREIGN KEY (`fk_jogo`) REFERENCES `jogo` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Restrições para tabelas `jogo`
+--
+ALTER TABLE `jogo`
+  ADD CONSTRAINT `jogo_ibfk_1` FOREIGN KEY (`campeonato`) REFERENCES `campeonato` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
