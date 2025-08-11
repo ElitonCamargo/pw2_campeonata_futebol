@@ -3,51 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <title>Lista de Clubes</title>
+    
+    <!-- Importa o CSS do Bootstrap para estilização -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<div class="container mt-5">
-    <h2 class="mb-4">Clubes</h2>
-    <table class="table table-striped table-bordered">
-        <thead class="table-dark">
-            <tr>
-                <th>Nome</th>
-                <th>Estádio</th>
-                <th>Capacidade do Estádio</th>
-                <th>Número de Títulos</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Exemplo de dados estáticos, substitua por dados dinâmicos conforme necessário -->
-            <tr>
-                <td>Clube A</td>
-                <td>Estádio A</td>
-                <td>50.000</td>
-                <td>5</td>
-            </tr>
-            <tr>
-                <td>Clube B</td>
-                <td>Estádio B</td>
-                <td>30.000</td>
-                <td>2</td>
-            </tr>
-            <tr>
-                <td>Clube C</td>
-                <td>Estádio C</td>
-                <td>40.000</td>
-                <td>3</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+    <div class="container mt-5">
+        <h2 class="mb-4">Clubes</h2>
+        <div style="display: flex; flex-direction: row-reverse; margin-bottom: 5px;">
+            <input type="search" id="txtBuscarClube">
+        </div>
+        
+        <!-- Tabela que irá exibir os dados dos clubes -->
+        <table class="table table-striped table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th >Nome</th>
+                    <th>Estádio</th>
+                    <th>Capacidade do Estádio</th>
+                    <th>Número de Títulos</th>
+                </tr>
+            </thead>
+            <tbody id="listaDeClubes">                
+                <!-- Os dados dos clubes serão inseridos aqui dinamicamente -->
+            </tbody>
+        </table>
+    </div>
+
     <script>
-        fetch('clube/listar.php?search=f')
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-                // Você pode processar e exibir os dados aqui conforme necessário
-            })
-            .catch(error => console.error('Erro ao buscar dados:', error));
+        /**
+         * Função responsável por buscar os clubes na API.
+         */
+        async function buscarClubes(search="") {
+            try {
+                const headOptionsHttp = {
+                    method: 'GET', // Método HTTP GET
+                    headers: {
+                        'Accept': 'application/json' // Indica que esperamos resposta em JSON
+                    }
+                }
+                const resposta = await fetch(`clube/listar.php?search=${search}`, headOptionsHttp);
+                
+                 // Verifica se a resposta está OK (status 200–299)
+                if (!resposta.ok) {
+                    renderizarClubes();
+                    throw(`Erro HTTP: ${resposta.status}`);
+                    return;
+                }
+
+                const resultado = await resposta.json();
+
+                if (resultado.status === 'success') {
+                    renderizarClubes(resultado.data);
+                } else {
+                    console.warn('Resposta inesperada da API:', resultado);
+                }
+
+            } catch (erro) {
+                console.error('Erro ao buscar dados dos clubes:', erro);
+            }
+        }
+
+        /**
+         * Função que renderiza os dados dos clubes na tabela.
+         * @param {Array} clubes - Lista de clubes retornada pela API
+         */
+        function renderizarClubes(clubes=[]) {
+            const corpoTabela = document.getElementById("listaDeClubes");
+            if(clubes.length==0){
+                corpoTabela.innerHTML = `<tr><td colspan="4">Nenhum resultado encontrado!!!</td></tr>`
+                return;
+            }
+            corpoTabela.innerHTML = clubes.map(clube => `
+                <tr>
+                    <td>${clube.nome}</td>
+                    <td>${clube.estadio}</td>
+                    <td>${clube.capacidade_estadio}</td>
+                    <td>${clube.num_titulos}</td>
+                </tr>
+            `).join('');
+        }
+
+        // Executa a função ao carregar a página
+        buscarClubes();
+
+        // Seleciona o campo de busca
+        const campoBusca = document.getElementById("txtBuscarClube");
+
+        // Adiciona o evento de escuta ao digitar no campo
+        campoBusca.addEventListener("keyup", () => {
+            buscarClubes(campoBusca.value);
+        });
     </script>
 </body>
 </html>
