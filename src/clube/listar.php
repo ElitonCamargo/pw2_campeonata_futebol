@@ -1,8 +1,8 @@
 <?php
-$host = 'localhost';
-$db   = 'campeonato_futbol';
-$user = 'root';
-$pass = '';
+$host = 'db'; // Nome do serviço do banco de dados no docker-compose
+$db   = 'campeonato_futebol'; // Nome do banco de dados
+$user = 'root'; // Nome do usuário do banco de dados
+$pass = 'root'; // Senha do usuário do banco de dados
 $charset = 'utf8mb4';
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";

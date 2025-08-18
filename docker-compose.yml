@@ -2,10 +2,11 @@ version: '3.8'
 
 services:
   web:
-    image: php:8.2-apache
+    build: .
     container_name: php-app
     volumes:
       - ./src:/var/www/html
+      - ./xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
     ports:
       - "8080:80"
     depends_on:
@@ -17,9 +18,9 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: testdb
-      MYSQL_USER: user
-      MYSQL_PASSWORD: =
+      MYSQL_DATABASE: campeonato_futebol
+      MYSQL_USER: user_sistema
+      MYSQL_PASSWORD: pass_sistema
     ports:
       - "3306:3306"
     volumes:
@@ -37,6 +38,6 @@ services:
       - PMA_PASSWORD=root
     depends_on:
       - db
+
 volumes:
   db_data:
-    name: db_data
