@@ -43,14 +43,18 @@ function listarClubesJson($search="") {
     if($lista) {
         $resposta = [
             'status' => 'success',
-            'data' => $lista
+            'data' => $lista,
+            'quant' => count($lista),
+            'status_code' => 200
         ];
         http_response_code(200);
         echo json_encode($resposta);
     } else {
         $resposta = [
             'status' => 'error',
-            'message' => 'Nenhum clube encontrado.'
+            'message' => 'Nenhum clube encontrado.',
+            'quant' => 0,
+            'status_code' => 404
         ];
         http_response_code(404);
         echo json_encode($resposta);

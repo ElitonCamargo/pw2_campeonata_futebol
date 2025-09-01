@@ -42,7 +42,7 @@
                         'Accept': 'application/json' // Indica que esperamos resposta em JSON
                     }
                 }
-                const resposta = await fetch(`clube/listar.php?search=${search}`, headOptionsHttp);
+                const resposta = await fetch(`clube/?search=${search}`, headOptionsHttp);
                 
                  // Verifica se a resposta está OK (status 200–299)
                 if (!resposta.ok) {
